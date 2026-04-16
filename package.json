@@ -1,0 +1,105 @@
+{
+  "name": "terminal-error-sound",
+  "displayName": "Terminal Error Sound",
+  "description": "Plays a 'FAAAH' meme sound whenever a terminal command exits with a non-zero exit code. Never miss a failed command again.",
+  "version": "1.0.0",
+  "publisher": "ctrl-adarsh",
+  "author": {
+    "name": "Adarsh"
+  },
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": ["Other"],
+  "keywords": [
+    "terminal", "sound", "error", "meme", "notification",
+    "faaah", "alert", "audio", "fun", "productivity"
+  ],
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#1e1e2e",
+    "theme": "dark"
+  },
+  "activationEvents": ["onStartupFinished"],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "terminalErrorSound.toggle",
+        "title": "Terminal Error Sound: Toggle On/Off",
+        "icon": "$(bell)"
+      },
+      {
+        "command": "terminalErrorSound.playTest",
+        "title": "Terminal Error Sound: Play Test Sound",
+        "icon": "$(play)"
+      }
+    ],
+    "configuration": {
+      "title": "Terminal Error Sound",
+      "properties": {
+        "terminalErrorSound.enabled": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Enable or disable the terminal error sound."
+        },
+        "terminalErrorSound.volume": {
+          "type": "number",
+          "default": 1.0,
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "markdownDescription": "Volume level for the error sound (`0.0` = silent, `1.0` = full volume)."
+        },
+        "terminalErrorSound.ignoredExitCodes": {
+          "type": "array",
+          "items": { "type": "number" },
+          "default": [130],
+          "markdownDescription": "Exit codes to ignore. Default ignores `130` (Ctrl+C)."
+        },
+        "terminalErrorSound.detectOutputErrors": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Also scan terminal output for error text patterns."
+        },
+        "terminalErrorSound.errorPatterns": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": [
+            "Error:", "TypeError", "ReferenceError", "SyntaxError",
+            "FATAL", "FAILED", "panic:", "Traceback", "Exception",
+            "ENOENT", "EACCES", "ERR!", "error[", "error:", "fatal:"
+          ],
+          "markdownDescription": "Text patterns in terminal output that trigger the error sound."
+        },
+        "terminalErrorSound.debounceInterval": {
+          "type": "number",
+          "default": 2000,
+          "minimum": 0,
+          "markdownDescription": "Minimum time (ms) between sounds. Prevents rapid-fire sound spam."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.93.0",
+    "typescript": "^5.3.0",
+    "@vscode/vsce": "^2.24.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ctrl-adarsh/faa-vscode-extension"
+  },
+  "bugs": {
+    "url": "https://github.com/ctrl-adarsh/faa-vscode-extension/issues"
+  },
+  "homepage": "https://github.com/ctrl-adarsh/faa-vscode-extension#readme",
+  "license": "MIT"
+}
